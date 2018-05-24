@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+ {% block body %}
+     <div class="container">
+         <div class="row">
+             <div class="col-md-10">
+                 <div class="list-group d-inline-flex p-2">
+                     {% for message in messages %}
+                         <div class="d-flex w-100 justify-content-between">
+                             <h5 class="mb-1">{% if app.user.id == message.userId %} posted by me {% else %} posted by person I followed {% endif %}</h5>
+                             <small>{{ message.createdAt is empty ? "" : message.createdAt|date("m/d/Y") }}</small>
+                         </div>
+                         <p class="mb-1">{{ message.messageBody }}</p>
+                         {% for bot in message.botUserMessages %}
+                             <span class="badge badge-primary badge-pill">bot "{{ bot.bot }}" answer: <small>{{ bot.answerMessage }}</small></span>
+                         {% endfor %}
+                     {% endfor %}
+                 </div>
+
+             </div>
+         </div>
+
+         <div class="row">
+             <div class="col-md-10">
+                 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                 {{ form_widget(form) }}
+                 {{ form_end(form) }}
+             </div>
+         </div>
+     </div>
+ {% endblock %}
